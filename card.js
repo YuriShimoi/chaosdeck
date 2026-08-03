@@ -24,7 +24,13 @@ class LoseCard extends BaseCard {
   static contentHtml = "<b>PERDEU... :(</b>";
 }
 
+class NormalCard extends BaseCard {
+  static value = "normal";
+  static contentHtml = "<b>TENTE AGAIN... :(</b>";
+}
+
 const Card = {
   Win: WinCard,
-  Lose: LoseCard
+  Lose: LoseCard,
+  Normal: NormalCard
 };

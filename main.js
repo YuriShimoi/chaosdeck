@@ -21,23 +21,54 @@ function cardClick(card) {
   if(!isFlipped) {
     card.dataset.flip = true;
     
-    // only 2 cards lol
-    canPlay = false;
-
-    if(cardValue == 'win') {
-      setTimeout(() => {
-        alert("GANHOU!!!");
-      }, 500);
+    switch(cardValue) {
+      case "lose":
+        canPlay = false;
+        setTimeout(() => {
+          alert("PERDEU!!!");
+        }, 500);
+        break;
+      case "win":
+        canPlay = false;
+        setTimeout(() => {
+          alert("GANHOU!!!");
+        }, 500);
+        break;
+      default:
+        break;
     }
   }
 }
 
-// ultra basic randomization
-if(Math.random() >= 0.5) {
+// ultra basic dumb randomization
+let dumbRandom = Math.random();
+if(dumbRandom <= 0.167) {
+  $cardList.appendChild(Card.Win.toNode());
+  $cardList.appendChild(Card.Lose.toNode());
+  $cardList.appendChild(Card.Normal.toNode());
+}
+else if(dumbRandom <= 0.333) {
+  $cardList.appendChild(Card.Win.toNode());
+  $cardList.appendChild(Card.Normal.toNode());
+  $cardList.appendChild(Card.Lose.toNode());
+}
+else if(dumbRandom <= 0.5) {
+  $cardList.appendChild(Card.Lose.toNode());
+  $cardList.appendChild(Card.Win.toNode());
+  $cardList.appendChild(Card.Normal.toNode());
+}
+else if(dumbRandom <= 0.666) {
+  $cardList.appendChild(Card.Lose.toNode());
+  $cardList.appendChild(Card.Normal.toNode());
+  $cardList.appendChild(Card.Win.toNode());
+}
+else if(dumbRandom <= 0.833) {
+  $cardList.appendChild(Card.Normal.toNode());
   $cardList.appendChild(Card.Win.toNode());
   $cardList.appendChild(Card.Lose.toNode());
 }
 else {
+  $cardList.appendChild(Card.Normal.toNode());
   $cardList.appendChild(Card.Lose.toNode());
   $cardList.appendChild(Card.Win.toNode());
 }
