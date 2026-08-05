@@ -1,6 +1,6 @@
 class BaseCard {
   static value = "";
-  static baseHtml = '<div class="card" data-value="${value}"><div class="content">${content}</div></div>';
+  static baseHtml = '<div class="card" data-value="${value}" data-fix="true"><div class="content">${content}</div></div>';
   static contentHtml = "";
 
   static toHtml() {
@@ -29,8 +29,14 @@ class NormalCard extends BaseCard {
   static contentHtml = "<b>TENTE AGAIN... :(</b>";
 }
 
+class ShuffleCard extends BaseCard {
+  static value = "shuffle";
+  static contentHtml = "<b>EMBARALHAR</b>";
+}
+
 const Card = {
   Win: WinCard,
   Lose: LoseCard,
-  Normal: NormalCard
+  Normal: NormalCard,
+  Shuffle: ShuffleCard
 };

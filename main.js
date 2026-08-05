@@ -1,13 +1,15 @@
 const $cardList = document.getElementById('card-list');
 
 let canPlay = true;
-let clickDelay = 1000;
+let clickDelay = 800;
+let extraDelay = 0;
 
 document.onclick = (e) => {
   if(!canPlay) return;
 
   if(e.target.classList.contains("card") || e.target.parentNode.classList.contains("card")) {
-    if (!this.lastClick || new Date().getTime() > (clickDelay + this.lastClick)) {
+    if (!this.lastClick || new Date().getTime() > (clickDelay + extraDelay + this.lastClick)) {
+      extraDelay = 0;
       this.lastClick = new Date().getTime();
       cardClick(e.target);
     }
@@ -34,41 +36,42 @@ function cardClick(card) {
           alert("GANHOU!!!");
         }, 500);
         break;
+      case "shuffle":
+        extraDelay = 500;
+        setTimeout(() => {
+          let cards = [...document.getElementsByClassName('card')];
+          cards.forEach(c => { c.dataset.fix = true; c.dataset.flip = false });
+          setTimeout(() => {
+            let clones = cards.map(c => c.cloneNode(true));
+            clones.sort(_ => Math.round(-Math.random()));
+            
+            $cardList.innerHTML = '';
+            clones.forEach(card => $cardList.appendChild(card));
+            setTimeout(_ => clones.forEach(c => c.dataset.fix = false), 100);
+          }, 400);
+        }, 800);
+        break;
       default:
         break;
     }
   }
 }
 
-// ultra basic dumb randomization
-let dumbRandom = Math.random();
-if(dumbRandom <= 0.167) {
-  $cardList.appendChild(Card.Win.toNode());
-  $cardList.appendChild(Card.Lose.toNode());
-  $cardList.appendChild(Card.Normal.toNode());
-}
-else if(dumbRandom <= 0.333) {
-  $cardList.appendChild(Card.Win.toNode());
-  $cardList.appendChild(Card.Normal.toNode());
-  $cardList.appendChild(Card.Lose.toNode());
-}
-else if(dumbRandom <= 0.5) {
-  $cardList.appendChild(Card.Lose.toNode());
-  $cardList.appendChild(Card.Win.toNode());
-  $cardList.appendChild(Card.Normal.toNode());
-}
-else if(dumbRandom <= 0.666) {
-  $cardList.appendChild(Card.Lose.toNode());
-  $cardList.appendChild(Card.Normal.toNode());
-  $cardList.appendChild(Card.Win.toNode());
-}
-else if(dumbRandom <= 0.833) {
-  $cardList.appendChild(Card.Normal.toNode());
-  $cardList.appendChild(Card.Win.toNode());
-  $cardList.appendChild(Card.Lose.toNode());
-}
-else {
-  $cardList.appendChild(Card.Normal.toNode());
-  $cardList.appendChild(Card.Lose.toNode());
-  $cardList.appendChild(Card.Win.toNode());
-}
+// relatively dumb but workable randomization
+let card_list = [
+  Card.Win.toNode(),
+  Card.Lose.toNode(),
+  Card.Normal.toNode(),
+  Card.Normal.toNode(),
+  Card.Normal.toNode(),
+  Card.Normal.toNode(),
+  Card.Shuffle.toNode(),
+  Card.Shuffle.toNode(),
+  Card.Shuffle.toNode()
+];
+card_list.sort(_ => Math.round(-Math.random()));
+card_list.forEach(card => $cardList.appendChild(card));
+
+setTimeout(_ => {
+  [...document.getElementsByClassName('card')].forEach(c => c.dataset.fix = false);
+}, 1);
