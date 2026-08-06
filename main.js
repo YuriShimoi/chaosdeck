@@ -1,4 +1,5 @@
 const $cardList = document.getElementById('card-list');
+const $root = document.querySelector(':root');
 
 let canPlay = true;
 let clickDelay = 800;
@@ -14,6 +15,15 @@ document.onclick = (e) => {
       cardClick(e.target);
     }
   }
+}
+
+function getRandomColor() {
+  let colorRange = '0123456789ABCDEF';
+  let color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += colorRange[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
 
 function cardClick(card) {
@@ -51,6 +61,12 @@ function cardClick(card) {
           }, 400);
         }, 800);
         break;
+      case "color":
+        setTimeout(() => {
+          $root.style.setProperty('--card-bg-color', getRandomColor());
+          $root.style.setProperty('--card-bs-color', getRandomColor());
+        }, 800);
+        break;
       default:
         break;
     }
@@ -67,7 +83,9 @@ let card_list = [
   Card.Normal.toNode(),
   Card.Shuffle.toNode(),
   Card.Shuffle.toNode(),
-  Card.Shuffle.toNode()
+  Card.Shuffle.toNode(),
+  Card.Color.toNode(),
+  Card.Color.toNode()
 ];
 card_list.sort(_ => Math.round(-Math.random()));
 card_list.forEach(card => $cardList.appendChild(card));
