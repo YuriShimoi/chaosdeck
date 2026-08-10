@@ -26,6 +26,10 @@ function getRandomColor() {
   return color;
 }
 
+function getRandomCard() {
+  return card_list[Math.round(Math.random()*(card_list.length-1))];
+}
+
 function cardClick(card) {
   const isFlipped = card.dataset.flip === 'true';
   const cardValue = card.dataset.value;
@@ -54,7 +58,7 @@ function cardClick(card) {
           setTimeout(() => {
             let clones = cards.map(c => c.cloneNode(true));
             clones.sort(_ => Math.round(-Math.random()));
-            
+            card_list = clones;
             $cardList.innerHTML = '';
             clones.forEach(card => $cardList.appendChild(card));
             setTimeout(_ => clones.forEach(c => c.dataset.fix = false), 100);
@@ -65,7 +69,16 @@ function cardClick(card) {
         setTimeout(() => {
           $root.style.setProperty('--card-bg-color', getRandomColor());
           $root.style.setProperty('--card-bs-color', getRandomColor());
-        }, 800);
+        }, 700);
+        break;
+      case "erase":
+        setTimeout(() => {
+          let rndCard;
+          do rndCard = getRandomCard();
+          while(rndCard.dataset.value == "win");
+          rndCard.remove();
+          card.remove();
+        }, 700);
         break;
       default:
         break;
@@ -85,7 +98,10 @@ let card_list = [
   Card.Shuffle.toNode(),
   Card.Shuffle.toNode(),
   Card.Color.toNode(),
-  Card.Color.toNode()
+  Card.Color.toNode(),
+  Card.Erase.toNode(),
+  Card.Erase.toNode(),
+  Card.Erase.toNode()
 ];
 card_list.sort(_ => Math.round(-Math.random()));
 card_list.forEach(card => $cardList.appendChild(card));

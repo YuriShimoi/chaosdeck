@@ -39,10 +39,16 @@ class ColorCard extends BaseCard {
   static contentHtml = "<b>ATAQUE DE COR!</b>"
 }
 
+class EraseCard extends BaseCard {
+  static value = "erase";
+  static contentHtml = "<b>-2 CARTA</b>";
+}
+
 const Card = {
   Win: WinCard,
   Lose: LoseCard,
   Normal: NormalCard,
   Shuffle: ShuffleCard,
-  Color: ColorCard
+  Color: ColorCard,
+  Erase: EraseCard
 };
