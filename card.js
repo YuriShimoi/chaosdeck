@@ -44,11 +44,17 @@ class EraseCard extends BaseCard {
   static contentHtml = "<b>-2 CARTA</b>";
 }
 
+class SoundCard extends BaseCard {
+  static value = "sound";
+  static contentHtml = "<b>GUARANÁ!</b>";
+}
+
 const Card = {
   Win: WinCard,
   Lose: LoseCard,
   Normal: NormalCard,
   Shuffle: ShuffleCard,
   Color: ColorCard,
-  Erase: EraseCard
+  Erase: EraseCard,
+  Sound: SoundCard
 };

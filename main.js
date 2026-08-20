@@ -4,6 +4,7 @@ const $root = document.querySelector(':root');
 let canPlay = true;
 let clickDelay = 800;
 let extraDelay = 0;
+let audioCard = new Audio('assets/guarana.mp3');
 
 document.onclick = (e) => {
   if(!canPlay) return;
@@ -80,6 +81,9 @@ function cardClick(card) {
           card.remove();
         }, 700);
         break;
+      case "sound":
+        audioCard.play();
+        break;
       default:
         break;
     }
@@ -101,7 +105,10 @@ let card_list = [
   Card.Color.toNode(),
   Card.Erase.toNode(),
   Card.Erase.toNode(),
-  Card.Erase.toNode()
+  Card.Erase.toNode(),
+  Card.Sound.toNode(),
+  Card.Sound.toNode(),
+  Card.Sound.toNode()
 ];
 card_list.sort(_ => Math.round(-Math.random()));
 card_list.forEach(card => $cardList.appendChild(card));
